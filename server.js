@@ -20,7 +20,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "profile",
-    formate: ['png', 'pdf', 'jpg', 'jpeg', 'webp']
+    format: ['png', 'pdf', 'jpg', 'jpeg', 'webp']
   }
 })
 
