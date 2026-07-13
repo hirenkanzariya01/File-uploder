@@ -20,7 +20,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "profile",
-    formate: ['png', 'pdf', 'jpg', 'jpeg', 'webp']
+    format: ['png', 'pdf', 'jpg', 'jpeg', 'webp']
   }
 })
 
@@ -29,7 +29,6 @@ const parser = multer({ storage: storage });
 
 
 app.post('/uplode/image', parser.single('file'), async (req, resp) => {
-  await console.log(req.file)
   await resp.send(req.body)
 })
 
