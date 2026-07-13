@@ -29,7 +29,6 @@ const parser = multer({ storage: storage });
 
 
 app.post('/uplode/image', parser.single('file'), async (req, resp) => {
-  await console.log(req.file)
   await resp.send(req.body)
 })
 
