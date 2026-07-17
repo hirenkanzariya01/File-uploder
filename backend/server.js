@@ -5,32 +5,40 @@ dotenv.config()
 const cors = require('cors')
 const multer = require('multer')
 const db = require('./db.js')
-app.use(express())
-app.use(express.json())
+
 app.use(cors())
+app.use(express.json())
 db()
 
-const cloudinary = require('./config/cloudinary.js')
+const cloudinaryconn = require('./config/cloudinary.js')
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
 
-
-
-
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
+  cloudinary: cloudinaryconn,
+  params: async (req, file) => ({
     folder: "profile",
-    format: ['png', 'pdf', 'jpg', 'jpeg', 'webp']
+    resource_type: "auto",
+  }),
+});
+
+const parser = multer({ storage });
+
+app.post("/upload", parser.single("file"), async (req, res) => {
+  try {
+    console.log(req.file);
+    res.json({
+      success:true,
+      message:'file uplode successfully',
+      data:req.file
+    })
+
+    
+  } catch (err) {
+    console.error(err);
   }
-})
 
+});
 
-const parser = multer({ storage: storage });
-
-
-app.post('/uplode/image', parser.single('file'), async (req, resp) => {
-  await resp.send(req.body)
-})
 
 app.listen(process.env.PORT, () => {
   console.log(`Application running on port number ${process.env.PORT}`)
