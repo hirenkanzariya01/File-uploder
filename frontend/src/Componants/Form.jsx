@@ -5,14 +5,21 @@ import axios from 'axios'
 
 function Form() {
   const [file, setFile] = useState()
-  const api = "http://localhost:4000/uplode/image"
+  const api = "http://localhost:4000/updateProduct/6a5a3beaa5329aa9b2e669f9"
 
   const hendleImage = async (e) => {
     try {
-      const formData = new FormData()
+      
+      let formData = new FormData()
       formData.append('file', file)
-      const sendData = await axios.post(api, formData)
+      formData.append("product_name", "productName");
+      formData.append("price", 120);
+      formData.append("description", "description");
+
+
+      const sendData = await axios.put(api, formData)
       console.log(sendData)
+      console.log(formData)
 
     } catch (error) {
       console.log(error)

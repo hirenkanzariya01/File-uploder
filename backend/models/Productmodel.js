@@ -1,7 +1,5 @@
-const express = require('express')
 const mongoose = require('mongoose')
-
-const ProductSchema = new mongoose.Schema({
+const ProductSchema = new mongoose.Schema.create({
   product_name: {
     type: String,
     required: true
@@ -20,5 +18,5 @@ const ProductSchema = new mongoose.Schema({
   }
 }, { timestamps: true })
 
-product_modal = mongoose.model({ "ProductSchema": ProductSchema })
+product_modal = mongoose.model("my_product", ProductSchema)
 module.exports = product_modal
