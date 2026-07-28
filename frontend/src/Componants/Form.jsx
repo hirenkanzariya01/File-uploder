@@ -43,7 +43,7 @@ function Form() {
     }
     else {
       setProduct_description_err(false)
-    }
+    } 
 
     if (!product_price) {
       setProduct_price_err(true)
