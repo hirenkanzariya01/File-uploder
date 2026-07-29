@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import { RxCross2 } from "react-icons/rx";
 
@@ -15,12 +15,12 @@ function Form() {
 
   const [product_description, setProduct_description] = useState('')
   const [product_description_err, setProduct_description_err] = useState(false)
-
+  const [productData, setProductData] = useState([])
 
   const fileRef = useRef()
 
 
-  const api = "http://localhost:4000/updateProduct/6a5a3beaa5329aa9b2e669f9"
+  const base_url = "http://localhost:4000"
 
   const sendData = async (e) => {
 
@@ -43,7 +43,7 @@ function Form() {
     }
     else {
       setProduct_description_err(false)
-    } 
+    }
 
     if (!product_price) {
       setProduct_price_err(true)
@@ -52,24 +52,40 @@ function Form() {
       setProduct_price_err(false)
     }
 
+    if (!file_err && !product_name_err && !product_description_err && !product_price_err) {
+      try {
+        let formData = new FormData()
+        formData.append('file', file)
+        formData.append("product_name", product_name);
+        formData.append("price", product_price);
+        formData.append("description", product_description);
 
-    // try {
-
-    //   let formData = new FormData()
-    //   formData.append('file', file)
-    //   formData.append("product_name", "productName");
-    //   formData.append("price", 120);
-    //   formData.append("description", "description");
-
-
-    //   const sendData = await axios.put(api, formData)
-    //   console.log(sendData)
-    //   console.log(formData)
-
-    // } catch (error) {
-    //   console.log(error)
-    // }
+        console.log("form data", formData)
+        const uplodeProduct = await axios.post(base_url + '/upload', formData)
+        console.log('File uplode ', uplodeProduct)
+        if (uplodeProduct) getProduct()
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
+
+
+  const getProduct = async () => {
+    try {
+      const productData = await axios.get(base_url + '/getproduct')
+      console.log('All Product Data ', productData.data.data)
+      setProductData(productData.data.data)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getProduct()
+  }, [])
+
   return (
     <div className="container">
       <div className="upload-card">
@@ -141,6 +157,20 @@ function Form() {
         }
 
         <button className="upload-btn" onClick={() => { sendData() }}>Upload Product</button>
+      </div>
+
+      <div className="ProductList">
+        {productData.map((e) => (
+          <div className="product-card" key={e._id}>
+            <img src={e.product_image_path} alt={e.product_name} />
+
+            <div className="product-info">
+              <h2>{e.product_name}</h2>
+              <h4>₹{e.price}</h4>
+              <p>{e.description}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )
