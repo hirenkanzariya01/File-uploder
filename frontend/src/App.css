@@ -1,5 +1,4 @@
 /* ======= Global ======= */
-
 * {
   margin: 0;
   padding: 0;
@@ -161,4 +160,28 @@ body {
     width:100%;
 }
 
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: #bb2d3b;
+}
+
+.delete-btn:active {
+    transform: scale(0.96);
+}
+
+.model{
+  background: transparent;
 }

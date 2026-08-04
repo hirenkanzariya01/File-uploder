@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import { RxCross2 } from "react-icons/rx";
+import swal from 'sweetalert'
 
 function Form() {
   const [file, setFile] = useState()
@@ -86,6 +87,24 @@ function Form() {
     getProduct()
   }, [])
 
+
+  const delete_product = async (e) => {
+    const p_id = e._id
+    const willDelete = await swal({
+      title: "Are you sure?",
+      text: "Are you sure that you want to delete this Product?",
+      icon: "warning",
+      dangerMode: true,
+    });
+
+    if (willDelete) {
+      swal("Deleted!", "Your imaginary file has been deleted!", "success");
+      const delete_pro = await axios.delete(base_url + '/deleteProduct/' + p_id)
+      if (delete_pro) getProduct()
+    }
+
+  }
+
   return (
     <div className="container">
       <div className="upload-card">
@@ -168,6 +187,7 @@ function Form() {
               <h2>{e.product_name}</h2>
               <h4>₹{e.price}</h4>
               <p>{e.description}</p>
+              <button className='delete-btn' onClick={() => { delete_product(e) }}>Delete Product</button>
             </div>
           </div>
         ))}
