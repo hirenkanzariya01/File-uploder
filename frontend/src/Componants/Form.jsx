@@ -102,7 +102,7 @@ function Form() {
       const delete_pro = await axios.delete(base_url + '/deleteProduct/' + p_id)
       if (delete_pro) getProduct()
     }
-
+  
   }
 
   return (
