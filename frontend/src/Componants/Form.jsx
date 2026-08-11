@@ -17,14 +17,15 @@ function Form() {
   const [product_description, setProduct_description] = useState('')
   const [product_description_err, setProduct_description_err] = useState(false)
   const [productData, setProductData] = useState([])
-
+  const [btnDisable, setBtnDisable] = useState(false)
   const fileRef = useRef()
 
 
   const base_url = "http://localhost:4000"
 
   const sendData = async (e) => {
-
+    console.log('btn click ')
+    setBtnDisable(true)
     if (!file) {
       setFile_err(true)
     }
@@ -63,21 +64,29 @@ function Form() {
 
         console.log("form data", formData)
         const uplodeProduct = await axios.post(base_url + '/upload', formData)
-        console.log('File uplode ', uplodeProduct)
-        if (uplodeProduct) getProduct()
+        console.log('api is call', uplodeProduct)
+        getProduct()
+        console.log('get data function is call')
+        console.log('btn is disable', btnDisable)
+        if (fileRef.current) {
+          fileRef.current.value = "";
+          setFile('')
+          setFile_err(false)
+        }
+        setProduct_name('')
+        setProduct_description('')
+        setProduct_price('')
       } catch (error) {
         console.log(error)
       }
     }
   }
 
-
   const getProduct = async () => {
     try {
       const productData = await axios.get(base_url + '/getproduct')
       console.log('All Product Data ', productData.data.data)
       setProductData(productData.data.data)
-
     } catch (error) {
       console.log(error)
     }
@@ -102,7 +111,7 @@ function Form() {
       const delete_pro = await axios.delete(base_url + '/deleteProduct/' + p_id)
       if (delete_pro) getProduct()
     }
-  
+
   }
 
   return (
@@ -134,6 +143,7 @@ function Form() {
           type="text"
           placeholder="Product Name"
           className="input-field"
+          value={product_name}
           onChange={(e) => {
             setProduct_name(e.target.value); setProduct_name_err(false);
             if (!e.target.value) {
@@ -149,6 +159,7 @@ function Form() {
           type="number"
           placeholder="Product Price"
           className="input-field"
+          value={product_price}
           onChange={(e) => {
             setProduct_price(e.target.value); setProduct_price_err(false);
             setProduct_price_err(false);
@@ -164,6 +175,7 @@ function Form() {
         <textarea
           placeholder="Enter Product Description"
           className="textarea-field"
+          value={product_description}
           onChange={(e) => {
             setProduct_description(e.target.value); setProduct_description_err(false); if (!e.target.value) {
               setProduct_description_err(true)
@@ -175,7 +187,12 @@ function Form() {
           product_description_err ? <p>Product Description is Require</p> : <p></p>
         }
 
-        <button className="upload-btn" onClick={() => { sendData() }}>Upload Product</button>
+        {
+          btnDisable ?
+            <button className="upload-btn" disabled >Upload Product</button>
+            :
+            <button className="upload-btn" onClick={() => { sendData() }}>Upload Product</button>
+        }
       </div>
 
       <div className="ProductList">
