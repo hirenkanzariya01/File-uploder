@@ -53,7 +53,7 @@ body {
 .textarea-field:focus {
   outline: none;
   border-color: #0d6efd;
-  box-shadow: 0 0 5px rgba(13,110,253,.3);
+  box-shadow: 0 0 5px rgba(13, 110, 253, .3);
 }
 
 .textarea-field {
@@ -115,7 +115,7 @@ body {
   background: #fff;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 5px 20px rgba(0,0,0,.08);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
   transition: .3s;
 }
 
@@ -150,38 +150,60 @@ body {
 
 /* ======= Responsive ======= */
 
-@media (max-width:900px){
+@media (max-width:900px) {
 
-.container{
-    grid-template-columns:1fr;
-}
+  .container {
+    grid-template-columns: 1fr;
+  }
 
-.upload-card{
-    width:100%;
-}
+  .upload-card {
+    width: 100%;
+  }
 
 }
 
 .delete-btn {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 22px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    transition: 0.3s ease;
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.3s ease;
+  margin-right:20px ;
+
 }
 
 .delete-btn:hover {
-    background: #bb2d3b;
+  background: #bb2d3b;
 }
 
 .delete-btn:active {
-    transform: scale(0.96);
+  transform: scale(0.96);
 }
 
-.model{
+.model {
   background: transparent;
+}
+
+.update-btn {
+  background: #436ef9;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.update-btn:hover {
+  background: #2052f7;
+}
+
+.update-btn:active {
+  transform: scale(0.96);
 }

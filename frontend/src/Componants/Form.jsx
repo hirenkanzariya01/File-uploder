@@ -18,6 +18,9 @@ function Form() {
   const [product_description_err, setProduct_description_err] = useState(false)
   const [productData, setProductData] = useState([])
   const [btnDisable, setBtnDisable] = useState(false)
+
+  const [isupdate, setIsUpdate] = useState(false)
+  const [update_p_image, set_update_p_image] = useState('')
   const fileRef = useRef()
 
 
@@ -76,6 +79,7 @@ function Form() {
         setProduct_name('')
         setProduct_description('')
         setProduct_price('')
+
       } catch (error) {
         console.log(error)
       }
@@ -114,17 +118,33 @@ function Form() {
 
   }
 
+  const update_product = (data) => {
+    setIsUpdate(true)
+    console.log('Update product data', data)
+    setProduct_name(data.product_name)
+    setProduct_description(data.description)
+    setProduct_price(data.price)
+
+    set_update_p_image(data.product_image_path)
+    // fileRef.current.value = data.product_image_path
+  }
+
   return (
     <div className="container">
       <div className="upload-card">
         <h2>Add Product</h2>
 
-        <input
-          type="file"
-          className="file-input"
-          onChange={(e) => { setFile(e.target.files[0]); setFile_err(false); }}
-          ref={fileRef}
-        />
+        {
+          isupdate ? <><img style={{ width: '100px' }} src={update_p_image} alt="" onClick={fileRef.current.click()} /></> :
+            <input
+              type="file"
+              className="file-input"
+              onChange={(e) => { setFile(e.target.files[0]); setFile_err(false); }}
+              ref={fileRef}
+            />
+        }
+
+
         {file ?
           <RxCross2 onClick={() => {
             if (fileRef.current) {
@@ -204,7 +224,8 @@ function Form() {
               <h2>{e.product_name}</h2>
               <h4>₹{e.price}</h4>
               <p>{e.description}</p>
-              <button className='delete-btn' onClick={() => { delete_product(e) }}>Delete Product</button>
+              <button className='delete-btn' onClick={() => { delete_product(e) }}>Delete </button>
+              <button className='update-btn' onClick={() => { update_product(e) }}>Update </button>
             </div>
           </div>
         ))}
