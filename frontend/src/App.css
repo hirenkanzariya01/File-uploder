@@ -1,3 +1,4 @@
+/* ======= Global ======= */
 * {
   margin: 0;
   padding: 0;
@@ -9,54 +10,50 @@ body {
   background: #f4f6f9;
 }
 
+/* ======= Main Container ======= */
+
 .container {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 95%;
+  max-width: 1400px;
+  margin: 40px auto;
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 30px;
 }
 
+/* ======= Upload Card ======= */
+
 .upload-card {
-  width: 420px;
   background: #fff;
-  padding: 30px;
+  padding: 25px;
   border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  height: fit-content;
 }
 
 .upload-card h2 {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   color: #333;
 }
 
-.file-input {
-  width: 100%;
-  margin-bottom: 18px;
-  padding: 10px;
-  border: 2px dashed #007bff;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #f9fbff;
-}
-
+.file-input,
 .input-field,
 .textarea-field {
   width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 18px;
-  border: 1px solid #dcdcdc;
+  margin-top: 15px;
+  padding: 12px;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  outline: none;
   font-size: 15px;
-  transition: 0.3s;
+  transition: .3s;
 }
 
 .input-field:focus,
 .textarea-field:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 5px rgba(13, 110, 253, .3);
 }
 
 .textarea-field {
@@ -67,20 +64,146 @@ body {
 .upload-btn {
   width: 100%;
   padding: 13px;
+  margin-top: 20px;
   border: none;
-  background: #007bff;
-  color: white;
-  font-size: 16px;
   border-radius: 8px;
+  background: #0d6efd;
+  color: white;
+  font-size: 17px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: .3s;
 }
 
 .upload-btn:hover {
-  background: #0056b3;
-  transform: translateY(-2px);
+  background: #0b5ed7;
 }
 
-.upload-btn:active {
-  transform: scale(0.98);
+/* ======= Error Text ======= */
+
+.upload-card p {
+  color: red;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+/* ======= Remove Icon ======= */
+
+.upload-card svg {
+  color: red;
+  font-size: 22px;
+  cursor: pointer;
+  margin-top: 10px;
+  float: right;
+  transition: .3s;
+}
+
+.upload-card svg:hover {
+  transform: scale(1.15);
+}
+
+/* ======= Product Grid ======= */
+
+.ProductList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+/* ======= Product Card ======= */
+
+.product-card {
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
+  transition: .3s;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+}
+
+.product-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 15px;
+}
+
+.product-info h2 {
+  font-size: 20px;
+  color: #333;
+}
+
+.product-info h4 {
+  color: #0d6efd;
+  margin: 10px 0;
+}
+
+.product-info p {
+  color: #666;
+  line-height: 1.5;
+}
+
+/* ======= Responsive ======= */
+
+@media (max-width:900px) {
+
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .upload-card {
+    width: 100%;
+  }
+
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.3s ease;
+  margin-right:20px ;
+
+}
+
+.delete-btn:hover {
+  background: #bb2d3b;
+}
+
+.delete-btn:active {
+  transform: scale(0.96);
+}
+
+.model {
+  background: transparent;
+}
+
+.update-btn {
+  background: #436ef9;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.update-btn:hover {
+  background: #2052f7;
+}
+
+.update-btn:active {
+  transform: scale(0.96);
 }
