@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import { RxCross2 } from "react-icons/rx";
 import swal from 'sweetalert'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 function Form() {
   const [file, setFile] = useState()
@@ -22,7 +24,11 @@ function Form() {
   const [isupdate, setIsUpdate] = useState(false)
   const [update_p_image, set_update_p_image] = useState('')
   const fileRef = useRef()
+  const [update_p_id, set_update_p_id] = useState()
+  const [show, setShow] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const base_url = "http://localhost:4000"
 
@@ -118,15 +124,19 @@ function Form() {
 
   }
 
-  const update_product = (data) => {
-    setIsUpdate(true)
-    console.log('Update product data', data)
-    setProduct_name(data.product_name)
-    setProduct_description(data.description)
-    setProduct_price(data.price)
+  const update_product = async () => {
+    let formData = new FormData()
+    formData.append('file', file)
+    formData.append("product_name", product_name);
+    formData.append("price", product_price);
+    formData.append("description", product_description);
 
-    set_update_p_image(data.product_image_path)
-    // fileRef.current.value = data.product_image_path
+    console.log("form data from put api", formData)
+    console.log("product id", update_p_id)
+
+    const uplodeProduct = await axios.put(base_url + '/updateProduct/'+update_p_id, formData)
+    console.log('api is call', uplodeProduct)
+    getProduct()
   }
 
   return (
@@ -225,11 +235,116 @@ function Form() {
               <h4>₹{e.price}</h4>
               <p>{e.description}</p>
               <button className='delete-btn' onClick={() => { delete_product(e) }}>Delete </button>
-              <button className='update-btn' onClick={() => { update_product(e) }}>Update </button>
+              <button className='update-btn' onClick={() => { set_update_p_id(e._id); handleShow() }}>Update </button>
             </div>
           </div>
         ))}
       </div>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        centered
+        animation={false}
+      >
+        <Modal.Header closeButton className="border-0 px-4 pt-4">
+          <Modal.Title className="fw-bold">
+            Update Product
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body className="px-4">
+          {/* Product Image */}
+          <div className="mb-4">
+            <label className="form-label fw-semibold">
+              Product Image
+            </label>
+
+            <input
+              type="file"
+              className="form-control"
+              accept="image/*"
+              onChange={(e) => { setFile(e.target.files[0]) }}
+              ref={fileRef}
+            />
+
+            <div className="form-text">
+              Select a new image for this product.
+            </div>
+          </div>
+
+          {/* Product Name */}
+          <div className="mb-4">
+            <label className="form-label fw-semibold">
+              Product Name
+            </label>
+
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter New Product Name"
+              value={product_name}
+              onChange={(e) => {
+                setProduct_name(e.target.value);
+
+              }}
+            />
+          </div>
+
+          {/* Product Price */}
+          <div className="mb-4">
+            <label className="form-label fw-semibold">
+              Product Price
+            </label>
+
+            <div className="input-group">
+              <span className="input-group-text">₹</span>
+
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Enter New Product Price"
+                onChange={(e) => {
+                  setProduct_price(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Product Description */}
+          <div className="mb-3">
+            <label className="form-label fw-semibold">
+              Product Description
+            </label>
+
+            <textarea
+              className="form-control"
+              rows="5"
+              placeholder="Enter Product Description"
+              onChange={(e) => {
+                setProduct_description(e.target.value);
+              }}
+            ></textarea>
+          </div>
+        </Modal.Body>
+
+        <Modal.Footer className="border-0 px-4 pb-4">
+          <Button
+            variant="secondary"
+            className="px-4"
+            onClick={handleClose}
+          >
+            Cancel
+          </Button>
+
+          <Button
+            variant="primary"
+            className="px-4"
+            onClick={() => { update_product() }}
+          >
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }
