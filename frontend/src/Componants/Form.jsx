@@ -131,12 +131,18 @@ function Form() {
     formData.append("price", product_price);
     formData.append("description", product_description);
 
-    console.log("form data from put api", formData)
-    console.log("product id", update_p_id)
-
-    const uplodeProduct = await axios.put(base_url + '/updateProduct/'+update_p_id, formData)
-    console.log('api is call', uplodeProduct)
+    const uplodeProduct = await axios.put(base_url + '/updateProduct/' + update_p_id, formData)
+    handleClose()
+    setFile('')
+    setProduct_name('')
+    setProduct_description('')
+    setProduct_price('')
     getProduct()
+  }
+
+  const add_value = (e) => {
+    console.log('Update product data ', e)
+    setProduct_name(e.product_name);
   }
 
   return (
@@ -235,7 +241,15 @@ function Form() {
               <h4>₹{e.price}</h4>
               <p>{e.description}</p>
               <button className='delete-btn' onClick={() => { delete_product(e) }}>Delete </button>
-              <button className='update-btn' onClick={() => { set_update_p_id(e._id); handleShow() }}>Update </button>
+              <button className='update-btn'
+                onClick={() => {
+                  set_update_p_id(e._id);
+                  handleShow();
+                  setProduct_name(e.product_name);
+                  setProduct_price(e.price)
+                  setProduct_description(e.description)
+
+                }}>Update </button>
             </div>
           </div>
         ))}
@@ -303,6 +317,7 @@ function Form() {
                 type="number"
                 className="form-control"
                 placeholder="Enter New Product Price"
+                value={product_price}
                 onChange={(e) => {
                   setProduct_price(e.target.value);
                 }}
@@ -320,6 +335,7 @@ function Form() {
               className="form-control"
               rows="5"
               placeholder="Enter Product Description"
+              value={product_description}
               onChange={(e) => {
                 setProduct_description(e.target.value);
               }}
